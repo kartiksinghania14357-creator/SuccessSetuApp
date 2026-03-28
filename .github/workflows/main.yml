@@ -6,22 +6,18 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Build Android APK
-        uses: pwa-builder/pwa-auth-action@v1
+        uses: pwa-builder/pwa-action@v2
         with:
-          # Aapka live website link
+          # Aapka website URL
           pwa-url: "https://kartiksinghania14357-creator.github.io/SuccessSetuApp/"
           android-package-id: "com.success.setu"
           android-app-name: "Success Setu"
           
-      - name: Check for APK
-        run: ls -R # Ye step hume batayega ki APK kahan bani hai
-
       - name: Upload APK
-        uses: actions/upload-artifact@v3
-        if: always() # Ye tab bhi chalega agar pichla step thoda nakhra kare
+        uses: actions/upload-artifact@v4
         with:
           name: success-setu-app
-          path: "**/*.apk" # Ye kisi bhi folder se APK dhoond nikalega
+          path: ./**/*.apk

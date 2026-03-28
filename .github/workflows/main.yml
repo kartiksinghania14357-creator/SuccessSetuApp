@@ -8,34 +8,19 @@ jobs:
       - name: Checkout Code
         uses: actions/checkout@v4
 
-      - name: Setup Java
-        uses: actions/setup-java@v4
+      - name: Build Android APK
+        uses: pwa-builder/pwa-action@v2
         with:
-          distribution: 'temurin'
-          java-version: '17'
-
-      - name: Setup Node
-        uses: actions/setup-node@v4
-        with:
-          node-version: '20'
-
-      - name: Install Bubblewrap
-        run: npm install -g @bubblewrap/cli
-
-      - name: Build APK (Final Fix)
-        run: |
-          # Android SDK ka rasta set karna zaroori hai
-          export ANDROID_HOME=$ANDROID_SDK_ROOT
-          
-          # Sab kuch automatically 'yes' karne ke liye
-          yes | bubblewrap init --manifest=manifest.json --extracp=./
-          
-          # APK build karne ki command
-          bubblewrap build --skipConfig
+          # Aapki repo ka link
+          pwa-url: "https://kartiksinghania14357-creator.github.io/SuccessSetuApp/"
+          android-package-id: "com.success.setu.app"
+          android-app-name: "Success Setu"
+          # Ye extra settings error rokti hain
+          signing-key-path: ""
+          signing-key-password: ""
           
       - name: Upload APK
         uses: actions/upload-artifact@v4
-        if: always()
         with:
           name: SuccessSetu-APK
-          path: "**/*.apk"
+          path: ./**/*.apk

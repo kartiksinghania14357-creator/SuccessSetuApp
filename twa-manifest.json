@@ -1,0 +1,16 @@
+{
+  "packageId": "com.success.setu.app",
+  "host": "kartiksinghania14357-creator.github.io",
+  "name": "Success Setu",
+  "launcherName": "Success Setu",
+  "display": "standalone",
+  "themeColor": "#FFFFFF",
+  "backgroundColor": "#FFFFFF",
+  "startUrl": "/SuccessSetuApp/",
+  "iconUrl": "https://kartiksinghania14357-creator.github.io/SuccessSetuApp/icon.png",
+  "maskableIconUrl": "https://kartiksinghania14357-creator.github.io/SuccessSetuApp/icon.png",
+  "appVersionCode": 1,
+  "appVersionName": "1.0.0",
+  "shortcuts": [],
+  "generatorApp": "bubblewrap-cli"
+}

@@ -22,14 +22,20 @@ jobs:
       - name: Install Bubblewrap
         run: npm install -g @bubblewrap/cli
 
-      - name: Build APK
+      - name: Build APK (Final Fix)
         run: |
-          # Ye command bina link ke seedha files se APK banayegi
+          # Android SDK ka rasta set karna zaroori hai
+          export ANDROID_HOME=$ANDROID_SDK_ROOT
+          
+          # Sab kuch automatically 'yes' karne ke liye
           yes | bubblewrap init --manifest=manifest.json --extracp=./
+          
+          # APK build karne ki command
           bubblewrap build --skipConfig
           
       - name: Upload APK
         uses: actions/upload-artifact@v4
+        if: always()
         with:
-          name: success-setu-app
-          path: ./*.apk
+          name: SuccessSetu-APK
+          path: "**/*.apk"

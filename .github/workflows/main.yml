@@ -11,7 +11,6 @@ jobs:
       - name: Build Android APK
         uses: pwa-builder/pwa-action@v2
         with:
-          # Aapka live URL jo abhi green bar mein dikha
           pwa-url: "https://kartiksinghania14357-creator.github.io/SuccessSetuApp/"
           android-package-id: "com.success.setu.app"
           android-app-name: "Success Setu"

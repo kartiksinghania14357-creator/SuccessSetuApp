@@ -8,17 +8,13 @@ jobs:
       - name: Checkout Code
         uses: actions/checkout@v3
 
-      - name: Setup Node
-        uses: actions/setup-node@v3
+      - name: Build Android APK
+        uses: pwa-builder/pwa-auth-action@v1
         with:
-          node-version: '16'
-
-      - name: Install Bubblewrap
-        run: npm install -g @bubblewrap/cli
-
-      - name: Build APK
-        run: |
-          bubblewrap build --skipConfig || echo "Build started"
+          # Aapki repository ka main page link
+          pwa-url: "https://kartiksinghania14357-creator.github.io/SuccessSetuApp/"
+          android-package-id: "com.success.setu"
+          android-app-name: "Success Setu"
           
       - name: Upload APK
         uses: actions/upload-artifact@v3

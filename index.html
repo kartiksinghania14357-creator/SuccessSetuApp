@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Success Setu Pro - Sidebar Edition</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+    <style>
+        :root { --bg: #0b0e14; --card: #161b22; --accent: #818cf8; --text: #ffffff; --gray: #8b949e; --sidebar: #0d1117; --border: #30363d; }
+        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+        body { background: var(--bg); color: var(--text); font-family: 'Segoe UI', sans-serif; margin: 0; overflow: hidden; }
+        
+        /* SIDEBAR STYLE */
+        #sidebar { position: fixed; left: -280px; top: 0; width: 280px; height: 100%; background: var(--sidebar); z-index: 10001; transition: 0.4s; overflow-y: auto; border-right: 1px solid var(--border); padding-bottom: 20px; }
+        #sidebar.open { left: 0; }
+        .side-head { padding: 25px 20px; background: #161b22; border-bottom: 1px solid var(--border); margin-bottom: 10px; }
+        .side-label { font-size: 11px; color: var(--accent); font-weight: bold; padding: 15px 20px 5px; text-transform: uppercase; }
+        .side-link { display: flex; align-items: center; padding: 12px 20px; text-decoration: none; color: white; font-size: 14px; gap: 12px; transition: 0.2s; cursor: pointer; border:none; background:transparent; width:100%; text-align:left; }
+        .side-link:active { background: #1e293b; }
+        .side-link i { width: 20px; color: var(--gray); }
+        .soon { font-size: 9px; background: #3b82f6; color: white; padding: 2px 6px; border-radius: 4px; margin-left: auto; }
+
+        /* OVERLAY */
+        #overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.7); z-index: 10000; }
+
+        /* MAIN APP LAYOUT */
+        #main-app { display: none; height: 100vh; flex-direction: column; }
+        header { display: flex; align-items: center; padding: 15px; background: #0d1117; border-bottom: 1px solid var(--border); gap: 15px; }
+        .content-area { flex: 1; overflow-y: auto; padding: 15px; padding-bottom: 90px; display: none; }
+        .content-area.active { display: block; animation: fadeIn 0.4s ease; }
+
+        /* CARDS & GRIDS */
+        .grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
+        .card { background: var(--card); border-radius: 12px; padding: 15px; text-align: center; border: 1px solid var(--border); text-decoration: none; color: white; display: block; }
+        .card i { font-size: 22px; color: var(--accent); margin-bottom: 8px; }
+        .card span { display: block; font-size: 14px; font-weight: 600; }
+        .card small { display: block; font-size: 10px; color: var(--gray); margin-top: 5px; }
+
+        /* SETTINGS STYLING */
+        .settings-group { background: var(--card); border-radius: 12px; border: 1px solid var(--border); margin-bottom: 15px; overflow: hidden; }
+        .settings-item { display: flex; align-items: center; padding: 15px; border-bottom: 1px solid var(--border); gap: 12px; cursor: pointer; }
+        .settings-item:last-child { border-bottom: none; }
+        .settings-item i { color: var(--accent); width: 20px; text-align: center; }
+        .settings-item span { flex: 1; font-size: 14px; }
+        .settings-item select, .settings-item input[type="checkbox"] { background: #0d1117; color: white; border: 1px solid var(--border); border-radius: 4px; padding: 2px 5px; }
+
+        /* WELCOME & NAV */
+        #welcome-slider { position: fixed; inset: 0; background: var(--bg); z-index: 10005; display: flex; transition: transform 0.6s ease; }
+        .slide { min-width: 100%; height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 30px; }
+        .nav-bar { position: fixed; bottom: 0; width: 100%; background: #0d1117; display: flex; justify-content: space-around; padding: 12px 0 20px; border-top: 1px solid var(--border); }
+        .nav-item { color: var(--gray); text-decoration: none; font-size: 11px; text-align: center; cursor: pointer; }
+        .nav-item.active { color: var(--accent); }
+
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+    </style>
+</head>
+<body>
+
+    <div id="overlay" onclick="toggleSidebar()"></div>
+
+    <div id="sidebar">
+        <div class="side-head">
+            <h2 style="margin:0; font-size:20px;">Success Setu</h2>
+            <small style="color:var(--gray)">Kishan | Admin</small>
+        </div>
+
+        <div class="side-label">School Section</div>
+        <button class="side-link" onclick="switchTab('tab-home', this); toggleSidebar()"><i class="fas fa-book"></i> NCERT (1-12)</button>
+
+        <div class="side-label">Course Sections</div>
+        <button class="side-link" onclick="switchTab('tab-computer', this); toggleSidebar()"><i class="fas fa-desktop"></i> Computer Courses</button>
+        <button class="side-link" onclick="switchTab('tab-coding', this); toggleSidebar()"><i class="fas fa-code"></i> Programming (33)</button>
+        
+        <div class="side-label">Job Prep</div>
+        <div class="side-link"><i class="fas fa-university"></i> Govt Jobs <span class="soon">Soon</span></div>
+
+        <div class="side-label">AI & Profile</div>
+        <a href="https://gemini.google.com/" target="_blank" class="side-link"><i class="fas fa-robot"></i> Ask AI Assistant</a>
+        <button class="side-link" onclick="switchTab('tab-settings', this); toggleSidebar()"><i class="fas fa-cog"></i> Settings</button>
+    </div>
+
+    <div id="welcome-slider">
+        <div class="slide"><img src="https://images.unsplash.com/photo-1517694712202-14dd9538aa97?w=400"><h2>Digital Skills</h2><button style="background:var(--accent); border:none; padding:10px 30px; border-radius:20px; color:white;" onclick="moveSlide(1)">Next</button></div>
+        <div class="slide"><img src="https://images.unsplash.com/photo-1587620962725-abab7fe55159?w=400"><h2>33+ Languages</h2><button style="background:var(--accent); border:none; padding:10px 30px; border-radius:20px; color:white;" onclick="moveSlide(2)">Next</button></div>
+        <div class="slide"><img src="https://i.ibb.co/vzPRm4Y/success-setu-logo.png" width="120"><h2>Welcome, Kishan!</h2><button style="background:var(--accent); border:none; padding:10px 30px; border-radius:20px; color:white;" onclick="startApp()">Start Learning</button></div>
+    </div>
+
+    <div id="main-app">
+        <header>
+            <i class="fas fa-bars" onclick="toggleSidebar()"></i>
+            <span style="font-weight:bold;">Success Setu</span>
+        </header>
+
+        <div id="tab-home" class="content-area active">
+            <h3 style="margin-top:0;">📚 NCERT Education</h3>
+            <div class="grid">
+                <a href="https://ncert.nic.in/textbook.php" target="_blank" class="card"><span>Class 1-5</span></a>
+                <a href="https://ncert.nic.in/textbook.php" target="_blank" class="card"><span>Class 6-12</span></a>
+            </div>
+            <h3>🏛️ Job Preparation</h3>
+            <div class="grid">
+                <div class="card"><i class="fas fa-clock"></i><span>SSC CGL</span><small>Coming Soon</small></div>
+                <div class="card"><i class="fas fa-clock"></i><span>Banking</span><small>Coming Soon</small></div>
+            </div>
+        </div>
+
+        <div id="tab-computer" class="content-area">
+            <h3>🖥️ Basic Computer Courses</h3>
+            <div class="grid">
+                <a href="https://www.nielit.gov.in/" target="_blank" class="card"><i class="fas fa-laptop"></i><span>CCC</span><small>NIELIT Official</small></a>
+                <a href="https://www.youtube.com/results?search_query=DCA+course+full" target="_blank" class="card"><i class="fas fa-file-word"></i><span>DCA</span><small>YouTube</small></a>
+                <a href="https://www.youtube.com/results?search_query=ADCA+course+full" target="_blank" class="card"><i class="fas fa-folder-open"></i><span>ADCA</span><small>YouTube</small></a>
+                <a href="https://tallysolutions.com/learning-hub/" target="_blank" class="card"><i class="fas fa-calculator"></i><span>Tally Prime</span></a>
+            </div>
+        </div>
+
+        <div id="tab-coding" class="content-area">
+            <h3>💻 Programming Hub</h3>
+            <div class="grid">
+                <a href="https://learnpython.org" target="_blank" class="card"><i class="fab fa-python"></i><span>Python</span></a>
+                <a href="https://html.com" target="_blank" class="card"><i class="fab fa-html5"></i><span>HTML</span></a>
+                <script>
+                    const langs = ["React", "Vue", "Angular", "SQL", "Next.js", "AI", "C++", "Java", "Flutter", "Firebase"];
+                    langs.forEach(l => {
+                        document.write(`<div class="card"><i class="fas fa-code"></i><span>${l}</span></div>`);
+                    });
+                </script>
+            </div>
+        </div>
+
+        <div id="tab-settings" class="content-area">
+            <h3 style="margin-top:0;">⚙️ App Settings</h3>
+            
+            <div class="side-label">Profile & Customization</div>
+            <div class="settings-group">
+                <div class="settings-item"><i class="fas fa-user-edit"></i><span>Edit Profile (Name, Photo)</span><i class="fas fa-chevron-right" style="font-size:10px;"></i></div>
+                <div class="settings-item"><i class="fas fa-moon"></i><span>Dark / Light Mode</span><input type="checkbox" checked></div>
+            </div>
+
+            <div class="side-label">Content & Performance</div>
+            <div class="settings-group">
+                <div class="settings-item"><i class="fas fa-download"></i><span>Offline Downloads</span></div>
+                <div class="settings-item">
+                    <i class="fas fa-film"></i><span>Video Quality</span>
+                    <select><option>Auto</option><option>360p</option><option>720p</option><option>1080p</option></select>
+                </div>
+                <div class="settings-item" style="color:#ff4d4d;"><i class="fas fa-trash-alt"></i><span>Clear Cache</span></div>
+            </div>
+
+            <div class="side-label">Learning & Productivity</div>
+            <div class="settings-group">
+                <div class="settings-item"><i class="fas fa-bell"></i><span>Study Reminder</span><input type="time" value="20:00" style="background:transparent; border:none; color:white;"></div>
+                <div class="settings-item"><i class="fas fa-bullseye"></i><span>Daily Goals</span><input type="checkbox"></div>
+                <div class="settings-item"><i class="fas fa-book-reader"></i><span>Reading Mode</span><select><option>Vertical</option><option>Horizontal</option></select></div>
+            </div>
+
+            <div class="side-label">Support & Connectivity</div>
+            <div class="settings-group">
+                <div class="settings-item"><i class="fas fa-language"></i><span>Language</span><select><option>Hindi</option><option>English</option></select></div>
+                <div class="settings-item"><i class="fas fa-bug"></i><span>Report a Bug</span></div>
+                <div class="settings-item"><i class="fas fa-sync"></i><span>Update App</span></div>
+            </div>
+
+            <div class="side-label">Security & Data</div>
+            <div class="settings-group">
+                <div class="settings-item"><i class="fas fa-lock"></i><span>Account Privacy</span></div>
+                <div class="settings-item"><i class="fas fa-cloud-upload-alt"></i><span>Backup Data</span><input type="checkbox" checked></div>
+            </div>
+
+            <div style="text-align:center; padding:10px; color:var(--gray); font-size:12px;">
+                <p>Dev: Kishan | Version 2.0.1</p>
+                <p>Sangam Vihar, Delhi</p>
+            </div>
+        </div>
+
+        <nav class="nav-bar">
+            <div class="nav-item active" onclick="switchTab('tab-home', this)"><i class="fas fa-home"></i><br>Home</div>
+            <div class="nav-item" onclick="switchTab('tab-computer', this)"><i class="fas fa-desktop"></i><br>Computer</div>
+            <div class="nav-item" onclick="switchTab('tab-coding', this)"><i class="fas fa-laptop-code"></i><br>Coding</div>
+            <div class="nav-item" onclick="switchTab('tab-settings', this)"><i class="fas fa-cog"></i><br>Settings</div>
+        </nav>
+    </div>
+
+    <script>
+        function toggleSidebar() {
+            let sb = document.getElementById('sidebar');
+            let ov = document.getElementById('overlay');
+            sb.classList.toggle('open');
+            ov.style.display = sb.classList.contains('open') ? 'block' : 'none';
+        }
+        function moveSlide(i) { document.getElementById('welcome-slider').style.transform = `translateX(-${i*100}%)`; }
+        function startApp() { 
+            document.getElementById('welcome-slider').style.display = 'none'; 
+            document.getElementById('main-app').style.display = 'flex'; 
+        }
+        function switchTab(id, el) {
+            document.querySelectorAll('.content-area').forEach(a => a.classList.remove('active'));
+            document.getElementById(id).classList.add('active');
+            document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
+            if(el.classList.contains('nav-item')) {
+                el.classList.add('active');
+            } else {
+                // If triggered from sidebar, update nav-bar icon highlight
+                const navItems = document.querySelectorAll('.nav-item');
+                if(id === 'tab-home') navItems[0].classList.add('active');
+                if(id === 'tab-computer') navItems[1].classList.add('active');
+                if(id === 'tab-coding') navItems[2].classList.add('active');
+                if(id === 'tab-settings') navItems[3].classList.add('active');
+            }
+        }
+    </script>
+</body>
+</html>
